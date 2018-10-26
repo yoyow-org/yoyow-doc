@@ -4,13 +4,13 @@
 系统配置: 两核，4G内存
 推荐系统： Ubuntu 16.04 LTS (64-bit)
 
-## 安装依赖:
+## 安装依赖
 ```
 sudo apt-get update
 sudo apt-get install autoconf cmake make automake libtool git libboost-all-dev libssl-dev g++ libcurl4-openssl-dev
 ```
 
-## 编译脚本:
+## 编译脚本
 ```
 git clone https://github.com/yoyow-org/yoyow-core.git
 cd yoyow-core
@@ -23,7 +23,7 @@ make yoyow_node
 make yoyow_client
 ```
 
-## 运行:
+## 运行
 编译完成后主要生成两个二进制文件，yoyow_node和yoyow_client。
 
 yoyow_node一般被称为节点程序，主要用来连接区块链网络，作用包括同步链上数据，广播交易，提供基础的[API](../api/node_api.html)等。

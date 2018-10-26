@@ -85,8 +85,3 @@ Welcome to YOYOW's documentation!
     others/forexchanges
     others/forplatforms
 
-Indices and tables
-==================
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
