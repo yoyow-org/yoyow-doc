@@ -84,4 +84,5 @@ Welcome to YOYOW's documentation!
     others/chain_params
     others/forexchanges
     others/forplatforms
+    others/create_platform
 
