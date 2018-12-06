@@ -68,8 +68,8 @@ docker run -itd --name yoyow-middleware -v <本地配置文件路径>:/app/conf 
 4. 启动中间件服务
   `npm start`
 
-启动正常情况如下图
-![启动正常情况如图](https://github.com/yoyow-org/yoyow-node-sdk/blob/master/middleware/public/images/step4.png)
+启动正常情况如下图，
+![启动正常情况如图](/images/sdk/step4.png)
 
 ## 接口说明
 
