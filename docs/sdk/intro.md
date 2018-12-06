@@ -3,7 +3,7 @@
 使用YOYOW 中间件是平台接入最简单的方式。主要提供三方面的接口： 账号授权，平台激励和内容上链。 可以采用 Docker 一键部署，获得相应的 API，方便的与 YOYOW 链进行交互。
 
 YOYOW中间件是通过YOYOW node 的API接口与YOYOW网络通讯，为平台服务商提供方便的访问链上数据的接口，保证传统业务代码能在只做尽量少的改动情况下，也能达到上链的需求。具体示意图如下：
-[YOYOW 中间件作用示意图](/images/sdk/architecture.png)
+![YOYOW 中间件作用示意图](/images/sdk/architecture.png)
 
 平台的创建操作步骤请参考：[从0开始创建YOYOW平台账户](/others/create_platform.html)
 
