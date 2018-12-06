@@ -91,10 +91,10 @@ YOYOW引入积分，可以减少普通用户小额手续费（内容发布，点
 ### 升级为平台账号
 普通账号需要升级成平台账号才能获得用户的授权，升级平台商目前需要抵押10000 YOYO的押金和1000 YOYO的手续费。该操作暂时通过yoyow的client端，通过接口执行create_platform操作，同时设定平台的名称，Token的符号以及相关的url地址和其他一些扩展信息，比如平台提供的api访问接口等。   
 
-具体抵押升级平台账号的操作，详见YOYOW中间件[yoyow-middleware](https://github.com/yoyow-org/yoyow-node-sdk/tree/master/middleware#2-%E5%88%9B%E5%BB%BA%E5%B9%B3%E5%8F%B0) 的使用教程。
+具体抵押升级平台账号的操作，详见 [从0开始创建YOYOW平台账户](/others/create_platform.html)。
 
 ### 授权认证
-YOYOW提供类似于OAuth的授权认证。YOYOW提供了中间件来方便平台进行接入，中间件中提供包括签名平台 （sign），签名验证（ verify），以及签名平台返回二维码（signQR）等接口（详见：[《yoyow-middleware》#Auth 相关](https://github.com/yoyow-org/yoyow-node-sdk/tree/master/middleware#2-auth-%E7%9B%B8%E5%85%B3)）。平台可以通过SDK中sign或signQR接口生成绑定链接，verify接口验证用户授权。通过授权，平台可以获得用户的零钱管理权限以及登陆授权。  
+YOYOW提供类似于OAuth的授权认证。YOYOW提供了中间件来方便平台进行接入，中间件中提供包括签名平台 （sign），签名验证（ verify），以及签名平台返回二维码（signQR）等接口（详见：[《yoyow-middleware》#Auth 相关](/sdk/intro.html#auth)）。平台可以通过SDK中sign或signQR接口生成绑定链接，verify接口验证用户授权。通过授权，平台可以获得用户的零钱管理权限以及登陆授权。  
 授权流程：
 
  ![OAuth 流程](/images/others/oauth_process.png)
@@ -114,15 +114,14 @@ YOYOW提供类似于OAuth的授权认证。YOYOW提供了中间件来方便平�
 
 平台可根据自身业务需要，指定针对的激励计划。激励的标的，可以为YOYO 或 自己发行的token。    
 以币问为例，币问已接入YOYOW的网络中，在币问的平台中，系统奖励周期为一周，定期统计一周内用户发表的内容所获得的点赞、点赞能量和评论数等，计算出一个奖励值，根据用户的奖励值的比例，发放YOYO代币。根据用户的活跃度和内容贡献值，用户会有威望的属性，被威望较高的用户点赞，可获得更高的点赞能量，被点赞用户也会获得更高的奖励。 用户可以在网页钱包中将YOYOW提现到其他地方进行交易。   
-在YOYOW的SDK中提供了transfer操作，可以转出自己的资产（YOYO或者自己创建的资产）分发给平台用户。详见：[《yoyow-middleware》#转账到指定用户 transfer ](https://github.com/yoyow-org/yoyow-node-sdk/tree/master/middleware#13-%E8%BD%AC%E8%B4%A6%E5%88%B0%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7-transfer-%E9%9C%80%E8%A6%81%E5%AE%89%E5%85%A8%E9%AA%8C%E8%AF%81%E7%9A%84%E8%AF%B7%E6%B1%82)。    
+在YOYOW的SDK中提供了transfer操作，可以转出自己的资产（YOYO或者自己创建的资产）分发给平台用户。详见：[《yoyow-middleware》#转账到指定用户 transfer ](/sdk/intro.html#transfer)。    
 
 ### 付费阅读/打赏
 通过YOYOW网络，平台可方便的接入加密货币的打赏/付费阅读体系。  
 平台可以基于YOYO资产或自己发行的资产，鼓励用户之间转发交易，构建内容付费阅读和打赏的平台。YoYow提供的区块链服务可以保证用户之间的转发交易安全、不可篡改、公开透明，以此激励用户提供更高质量的内容。  
-在YOYOW的SDK中提供了transferFromUser，可以支持用户对用户通过平台转账（只可以转出零钱内存放的YOYO代理），同时将转账数据写入YOYOW链上。详见：[《yoyow-middleware》#用户对用户通过平台转账](https://github.com/yoyow-org/yoyow-node-sdk/tree/master/middleware#19-%E7%94%A8%E6%88%B7%E5%AF%B9%E7%94%A8%E6%88%B7%E9%80%9A%E8%BF%87%E5%B9%B3%E5%8F%B0%E8%BD%AC%E8%B4%A6-transferfromuser%E9%9C%80%E8%A6%81%E5%AE%89%E5%85%A8%E9%AA%8C%E8%AF%81%E7%9A%84%E8%AF%B7%E6%B1%82)。
 
 更多：
 
-1. YOYOW Node SDK ：<https://github.com/yoyow-org/yoyow-node-sdk>.
-2. YOYOW Node SDK 中间件：<https://github.com/yoyow-org/yoyow-node-sdk/tree/master/middleware>.
+1. YOYOW 中间件 <https://github.com/yoyow-org/yoyow-middleware>.
+
 
