@@ -418,9 +418,10 @@ localhost:3000/api/v1/updateAllowedAssets
     {String} title - 文章标题
     {String} body - 文章内容
     {String} extra_data - 文章拓展信息
-    {String} origin_platform - 原文平台账号（默认 null）
-    {String} origin_poster - 原文发文者账号（默认 null）
-    {String} origin_post_pid - 原文文章编号（默认 null）
+    {Number} hash_value - hash值，如果不提供该参数，默认使用body内容的sha256值。
+    {Number} origin_platform - 原文平台账号（默认 null）
+    {Number} origin_poster - 原文发文者账号（默认 null）
+    {Number} origin_post_pid - 原文文章编号（默认 null）
     {Number} time - 操作时间
 
   请求示例：参照 安全请求验证
