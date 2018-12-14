@@ -9,6 +9,9 @@
 
 可以在网页钱包注册测试网账户，注册成功后会送12000个TEST YOYO。
 
+## 测试网浏览器
+测试网浏览器地址：<https://testnet.explorer.yoyow.org/>
+
 ## 运行测试网node节点
 搭建测试网全节点，直接运行下载的测试网的yoyow_node即可，以Ubuntu环境为例
 ```
