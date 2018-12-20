@@ -2048,7 +2048,7 @@ WebSocket:
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_relative_account_history", [223331844, null, 1,3,10]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": ["history", "get_relative_account_history", [223331844, null, 1,3,10]], "id": 1}' http://47.52.155.181:10011/rpc
 
 
 返回结果
