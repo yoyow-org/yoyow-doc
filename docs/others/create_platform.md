@@ -172,7 +172,7 @@ cli 钱包 同路径下创建wallet.json 文件
 
     "image":"http://example.image.jpg" 平台头像，yoyow app 1.1 中，显示的平台头像
 
-    "h5url":"http://exampleH5.com" 平台h5地址，用于在无app可跳转动情况下，调整h5页面
+    "h5url":"http://exampleH5.com" 平台h5地址，用于在无app可跳转的情况下，跳转到h5页面
 
     "packagename":"com.example.app" 平台android 跳转
 
