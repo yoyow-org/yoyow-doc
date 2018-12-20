@@ -2043,7 +2043,7 @@ WebSocket:
 ::
 
     wscat -c ws://47.52.155.181:10011
-    {"id":1, "method":"call", "params":[2, "get_relative_account_history", [223331844, null, 1,3,10]]}
+    {"id":1, "method":"call", "params":["history", "get_relative_account_history", [223331844, null, 1,3,10]]}
 
 JSON-RPC:
 ::
