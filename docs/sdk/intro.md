@@ -712,9 +712,10 @@ App扫码授权登录将访问 平台拓展信息的 平台扫码登录请求接
     let key = 'customkey123456'; // 此key与中间件中的config 里 secure_key相同
 
     let sendObj = {
-      "uid": 9638251,
-      "amount": 100,
-      "memo": "hello yoyow",
+      "uid": 220900750,
+      "amount": 10,
+      "asset_id": 0,
+      "memo": "memo",
       "time": Date.now()  //time 字段 操作时间取当前时间毫秒值 加密操作须带有此字段 用于验证操作时效
     }
 
