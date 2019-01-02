@@ -5,7 +5,7 @@
 YOYOW中间件是通过YOYOW node 的API接口与YOYOW网络通讯，为平台服务商提供方便的访问链上数据的接口，保证传统业务代码能在只做尽量少的改动情况下，也能达到上链的需求。具体示意图如下：
 ![YOYOW 中间件作用示意图](/images/sdk/architecture.png)
 
-平台的创建操作步骤请参考：[从0开始创建YOYOW平台账户](/others/create_platform.html)
+平台的创建操作步骤请参考：[从0开始创建YOYOW平台账户](../others/create_platform.html)
 
 ## 部署启动
 ### 配置文件说明
