@@ -3754,7 +3754,7 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "create_asset", ["250926091","TOTOTO", 4, {"max_supply":300000,"mare_percent":0,"max_market_fee":0,"issuer_permissions":4}ket_fe, 200000, true]]}
+    {"id":1, "method":"call", "params":[0, "create_asset", ["250926091","TOTOTO", 4, {"max_supply":300000,"market_fee_percent":0,"max_market_fee":0,"issuer_permissions":4}, 200000, true]]}
 
 JSON-RPC:
 ::
@@ -3835,7 +3835,7 @@ WebSocket; JSON-RPC
 """"""""""""""""
 
 :symbol:  资产符号
-:new_issuer:  新的资产所有人
+:new_issuer:  新的资产所有人，不需修改则置为null
 :new_options:   新的资产选项（见create_asset 中的 common参数结构），不需修改则输入 null
 :broadcast:  是否广播
 
@@ -3843,7 +3843,9 @@ WebSocket; JSON-RPC
 """"""""""""""""
 只有资产发行人才能使用这个功能。
 
-只有当前流通量为零时，才能修改精度。
+资产的所有人可以转移，修改new_issuer参数即可转移给其他账户。
+
+只有当前流通量为零时，才能修改精度信息。
 
 调用样例及调试工具
 """""""""""""""""""""""""""""""""
