@@ -27,8 +27,8 @@ create_witness 223331844 YYW1111111111111111111111111111111114T1Anm 1000000 YOYO
 
 ## 更新见证人信息
 ```
-# update_witness <lower_bound> <limit> <ops>
-update_witness 0 5 1
+# update_witness <witness_account> <block_signing_key> <pledge_amount> <pledge_asset_symbol> <url> <broadcast>
+update_witness 223331844 null 100345 YOYO null true
 ```
 详见：[update_witness](../api/wallet_api.html#update-witness)
 
