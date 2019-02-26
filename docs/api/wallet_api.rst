@@ -3033,7 +3033,8 @@ WebSocket; JSON-RPC
 
 所需密钥权限
 """"""""""""""""""
-需要领取者的Secondary key
+如果领给自己，需要领取者的Secondary Key
+如果领给其他账户，需要领取者的 Active Key
 
 访问授权限制
 """"""""""""""""""
@@ -3129,7 +3130,8 @@ WebSocket; JSON-RPC
 
 所需密钥权限
 """"""""""""""""""
-需要领取者的Secondary key
+如果领给自己，需要领取者的Secondary Key
+如果领给其他账户，需要领取者的 Active Key
 
 访问授权限制
 """"""""""""""""""
