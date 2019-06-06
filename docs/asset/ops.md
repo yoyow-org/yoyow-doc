@@ -7,7 +7,10 @@
 ```
 # transfer <from> <to> <amount> <asset_symbol> <memo> <broadcast>
 transfer 250926091 209414065 100 YOYO "memo" true
+# 或者 transfer_new <from> <to> <amount> <asset_symbol> <memo> <csaf_fee> <broadcast>
+transfer_new 250926091 209414065 100 YOYO "memo" true true
 ```
+
 详见：[transfer](../api/wallet_api.html#transfer)
 
 ## 查询
@@ -40,14 +43,16 @@ get_full_account 250926091
 ### 领取到当前时间的积分
 ```
 # collect_csaf <from> <to> <amount> <asset_symbol> <broadcast>
-collect_csaf 250926091 209414065 100 YOYO true
+collect_csaf 250926091 209414065 100 YOYO true 
+# 或者 collect_csaf <from> <to> <amount> <asset_symbol> <broadcast>
+collect_csaf 250926091 209414065 100 YOYO true true
 ```
 详见：[collect_csaf](../api/wallet_api.html#collect-csaf-with-time)
 
 ### 领取积累到指定时间的积分
 ```
-# collect_csaf_with_time <from> <to> <amount> <asset_symbol> <time> <broadcast>
-collect_csaf_with_time 250926091 209414065 100 YOYO "2018-04-16T02:44:00" true
+# collect_csaf_with_time <from> <to> <amount> <asset_symbol> <time> <csaf_fee> <broadcast>
+collect_csaf_with_time 250926091 209414065 100 YOYO "2018-04-16T02:44:00" true true
 ```
 详见：[collect_csaf_with_time](../api/wallet_api.html#collect-csaf-with-time)
 
@@ -71,28 +76,28 @@ list_assets YOYO 4
 
 ### 创建资产
 ```
-# create_asset <issuer> <symbol> <precision> <common> <initial_supply> <broadcast>
-create_asset 250926091 TOTOTO 4 {"max_supply":300000,"market_fee_percent":0,"max_market_fee":0,"issuer_permissions":4} 200000 true
+# create_asset <issuer> <symbol> <precision> <common> <initial_supply> <csaf_fee> <broadcast>
+create_asset 250926091 TOTOTO 4 {"max_supply":300000,"market_fee_percent":0,"max_market_fee":0,"issuer_permissions":4} 200000 true true
 ```
 详见：[create_asset](../api/wallet_api.html#create-asset)
 
 ### 发行资产
 ```
-# issue_asset <to_account> <amount> <symbol> <memo> <broadcast>
-issue_asset 250926091 10000 WOWO memo true
+# issue_asset <to_account> <amount> <symbol> <memo> <csaf_fee> <broadcast>
+issue_asset 250926091 10000 WOWO memo true true
 ```
 详见：[issue_asset](../api/wallet_api.html#issue-asset)
 
 ### 更新资产
 ```
-# update_asset <symbol> <new_issuer> <new_options> <broadcast>
-update_asset WOWO null {"max_supply":"2000000000"} true
+# update_asset <symbol> <new_issuer> <new_options> <csaf_fee> <broadcast>
+update_asset WOWO null {"max_supply":"2000000000"} true true
 ```
 详见：[update_asset](../api/wallet_api.html#update-asset)
 
 ### 销毁资产
 ```
-# reserve_asset <from> <amount> <symbol> <broadcast>
-reserve_asset 250926091 1000 WOWO true
+# reserve_asset <from> <amount> <symbol> <csaf_fee> <broadcast>
+reserve_asset 250926091 1000 WOWO true true
 ```
 详见：[reserve_asset](../api/wallet_api.html#reserve-asset)

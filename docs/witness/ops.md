@@ -20,22 +20,22 @@ list_witnesses 0 5 1
 
 ## 创建见证人
 ```
-# create_witness <owner_account> <block_signing_key> <pledge_amount> <pledge_asset_symbol> <url> <broadcast>
-create_witness 223331844 YYW1111111111111111111111111111111114T1Anm 1000000 YOYO "http://www.yoyow.org" true
+# create_witness <owner_account> <block_signing_key> <pledge_amount> <pledge_asset_symbol> <url> <csaf_fee> <broadcast>
+create_witness 223331844 YYW1111111111111111111111111111111114T1Anm 1000000 YOYO "http://www.yoyow.org" true true
 ```
 详见：[create_witness](../api/wallet_api.html#create-witness)
 
 ## 更新见证人信息
 ```
-# update_witness <witness_account> <block_signing_key> <pledge_amount> <pledge_asset_symbol> <url> <broadcast>
-update_witness 223331844 null 100345 YOYO null true
+# update_witness <witness_account> <block_signing_key> <pledge_amount> <pledge_asset_symbol> <url> <csaf_fee> <broadcast>
+update_witness 223331844 null 100345 YOYO null true true
 ```
 详见：[update_witness](../api/wallet_api.html#update-witness)
 
 ## 见证人投票
 ```
-# update_witness_votes <voting_account> <witnesses_to_add> <witnesses_to_remove> <broadcast>
-update_witness_votes 250926091 [abit] [] true
+# update_witness_votes <voting_account> <witnesses_to_add> <witnesses_to_remove> <csaf_fee> <broadcast>
+update_witness_votes 250926091 [abit] [] true true
 ```
 详见：[update_witness_votes](../api/wallet_api.html#update-witness-votes)
 
@@ -43,13 +43,13 @@ update_witness_votes 250926091 [abit] [] true
 
 ```
 # 先设置离线
-update_witness 25638 YYW1111111111111111111111111111111114T1Anm null null null true
+update_witness 25638 YYW1111111111111111111111111111111114T1Anm null null null true true
 # 然后将押金改为0，押金过7天时间会退回（如果没有因为作恶被扣除的话）
-update_witness 25638 null 0 YOYO null true
+update_witness 25638 null 0 YOYO null true true
 ```
 
 ## 领取见证人收益
 ```
-# collect_witness_pay <witness_account> <pay_amount> <pay_asset_symbol> <broadcast>
-collect_witness_pay 25638 100 YOYO true
+# collect_witness_pay <witness_account> <pay_amount> <pay_asset_symbol> <csaf_fee> <broadcast>
+collect_witness_pay 25638 100 YOYO true true
 ``` 

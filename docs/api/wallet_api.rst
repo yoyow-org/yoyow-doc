@@ -44,15 +44,17 @@ http rpc接口地址： http://localhost:8093
 
 
 1. 使用wscat连接 websocket 接口: 
+
 ::
     wscat -c ws://localhost:8091
 
-
 2. 使用curl 连接 websocket 接口:
+
 ::
     curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_accounts_by_uid", [["250926091"]]], "id": 1}' http://localhost:8091
 
 3. 使用curl 连接 http 接口:
+
 ::
     curl --data '{"method": "call", "params": [0, "get_accounts_by_uid", [["250926091"]]], "id": 1}' http://localhost:8093
 
@@ -2283,11 +2285,18 @@ JSON-RPC:
 -----------------------------
 以下操作涉及密钥权限的，需要导入相关的私钥，同时，保证wallet需处于解锁（unlocked）状态
 
+交易类的操作一般情况下最后两个参数分别是 csaf_fee 和 broadcast, 分别代表 手续费的支付方式 和 是否广播
 
-2.4.1 transfer
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
+:broadcast:  是否广播，true or false
+
+注：transfer 和 collect_csaf 由于历史原因，会没有csaf_fee参数，默认使用积分抵扣手续费，如果需要使用零钱支付手续费，可以使用transfer_new 和 collect_csaf_new 两个接口。
+
+2.4.1 transfer & transfer_new
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 根据uid列表 查询平台
 
+transfer 
 支持格式
 """"""""""""""""
 JSON 
@@ -2314,6 +2323,7 @@ WebSocket; JSON-RPC
 :amount:  金额，如果金额为小数建议使用字符串传参
 :asset_symbol:   币种, 资产类型，当前只有"YOYO"
 :memo:   备注（不带备注的话用空串""）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费（transfer 没有该参数，默认使用积分抵扣手续费）
 :broadcast:  是否广播，true or false
 
 
@@ -2327,12 +2337,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "transfer",[250926091, 209414065, "10", "YOYO", "feho", true]]}
+    {"id":1, "method":"call", "params":[0, "transfer_new",[250926091, 209414065, "10", "YOYO", "feho", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "transfer",[250926091, 209414065, "10", "YOYO", "feho", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "transfer_new",[250926091, 209414065, "10", "YOYO", "feho", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -2413,6 +2423,7 @@ WebSocket; JSON-RPC
 :pledge_amount:  抵押金额
 :pledge_asset_symbol:   抵押币种（YOYO）
 :url: 介绍链接
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 其中：签名公钥为 YYW1111111111111111111111111111111114T1Anm 表示暂时离线
@@ -2427,12 +2438,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "create_witness", ["223331844", "YYW1111111111111111111111111111111114T1Anm","1000000", "YOYO", "http://www.yoyow.org", true]]}
+    {"id":1, "method":"call", "params":[0, "create_witness", ["223331844", "YYW1111111111111111111111111111111114T1Anm","1000000", "YOYO", "http://www.yoyow.org", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "create_witness", ["223331844", "YYW1111111111111111111111111111111114T1Anm","100", "YOYO", "http://www.yoyow.org", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "create_witness", ["223331844", "YYW1111111111111111111111111111111114T1Anm","100", "YOYO", "http://www.yoyow.org", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -2498,6 +2509,7 @@ WebSocket; JSON-RPC
 :pledge_amount:  新的抵押金额，不需修改则输入 null
 :pledge_asset_symbol:   新的抵押币种（YOYO），不需修改则输入 null
 :url: 新的介绍链接，不需修改则输入 null
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 其中，抵押金额和币种必须同时出现或者同时不出现，目前币种只能是 YOYO 
@@ -2513,12 +2525,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "update_witness", ["223331844", null,"100345", "YOYO", null, true]]}
+    {"id":1, "method":"call", "params":[0, "update_witness", ["223331844", null,"100345", "YOYO", null, true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_witness", ["223331844", null,"100345", "YOYO", null, true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_witness", ["223331844", null,"100345", "YOYO", null, true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -2592,6 +2604,7 @@ WebSocket; JSON-RPC
 :pledge_amount:  抵押金额
 :pledge_asset_symbol:   抵押币种（YOYO）
 :url: 介绍链接
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -2604,12 +2617,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "create_committee_member", ["223331844","1000", "YOYO", "http://www.yoyow.org", true]]}
+    {"id":1, "method":"call", "params":[0, "create_committee_member", ["223331844","1000", "YOYO", "http://www.yoyow.org", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "create_committee_member", ["223331844","1000", "YOYO", "http://www.yoyow.org", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "create_committee_member", ["223331844","1000", "YOYO", "http://www.yoyow.org", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -2679,6 +2692,7 @@ WebSocket; JSON-RPC
 :pledge_amount:  新的抵押金额，不需修改则输入 null
 :pledge_asset_symbol:   新的抵押币种（YOYO），不需修改则输入 null
 :url: 新的介绍链接，不需修改则输入 null
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -2691,12 +2705,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "update_committee_member", ["223331844", "10234", "YOYO", null, true]]}
+    {"id":1, "method":"call", "params":[0, "update_committee_member", ["223331844", "10234", "YOYO", null, true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_committee_account", ["250926091","10000", "YOYO", null, true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_committee_account", ["250926091","10000", "YOYO", null, true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -2771,6 +2785,7 @@ WebSocket; JSON-RPC
 
 :account_to_modify:  委托人账号（UID或昵称）
 :voting_account:  代理人账号（用UID或昵称设置代理，null为取消代理）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -2783,12 +2798,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "set_voting_proxy", ["250926091", "abit", true]]}
+    {"id":1, "method":"call", "params":[0, "set_voting_proxy", ["250926091", "abit", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "set_voting_proxy", ["250926091", "abit", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "set_voting_proxy", ["250926091", "abit", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -2860,6 +2875,7 @@ WebSocket; JSON-RPC
 :voting_account:  账号（UID或昵称）
 :witnesses_to_add:  增加支持的见证人清单（UID或昵称）
 :witnesses_to_remove:   移除支持的见证人清单（UID或昵称）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 witnesses_to_add和witnesses_to_remove两个清单可以都为空"[]"，表示刷新投票意向。
@@ -2874,12 +2890,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "update_witness_votes", ["250926091", ["abit"], [], true]]}
+    {"id":1, "method":"call", "params":[0, "update_witness_votes", ["250926091", ["abit"], [], true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_witness_votes", ["250926091", ["abit"], [], true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_witness_votes", ["250926091", ["abit"], [], true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -2954,6 +2970,7 @@ WebSocket; JSON-RPC
 :voting_account:  投票人账号（UID或昵称）
 :committee_members_to_add:  数组，增加支持的候选理事清单（UID或昵称）
 :committee_members_to_remove:  数组，移除支持的候选理事清单（UID或昵称）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 committee_members_to_add，committee_members_to_remove两个清单可以都为空"[]"，表示刷新投票意向。
@@ -2968,12 +2985,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "update_committee_member_votes", ["250926091", ["init1"], [],  true]]}
+    {"id":1, "method":"call", "params":[0, "update_committee_member_votes", ["250926091", ["init1"], [], true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_committee_member_votes", ["250926091", ["init1"], [],  true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_committee_member_votes", ["250926091", ["init1"], [], true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -3051,6 +3068,7 @@ WebSocket; JSON-RPC
 :amount:   领取金额
 :asset_symbol: 领取币种( 币种只能是 YOYO )
 :time:  指定时间，例如："2018-04-16T02:44:00" ，该时间为UTC时间，且不得早于当前链上新出块的时间5分钟。
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -3117,7 +3135,7 @@ JSON-RPC:
 
 
 
-2.4.10 collect_csaf
+2.4.10 collect_csaf & collect_csaf_new
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 领取积分，领取积累到当前时间（分钟）的积分。
 
@@ -3148,6 +3166,7 @@ WebSocket; JSON-RPC
 :to:  接收账号（UID或昵称）
 :amount:   领取金额
 :asset_symbol: 领取币种( 币种只能是 YOYO )
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费 (collect_csaf 没有该参数，默认使用积分抵扣手续费)
 :broadcast:  是否广播
 
 注意事项
@@ -3160,12 +3179,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "collect_csaf", ["250926091", "250926091", 1, "YOYO", true]]}
+    {"id":1, "method":"call", "params":[0, "collect_csaf", ["250926091", "250926091", 1, "YOYO", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "collect_csaf", ["250926091", "250926091", 1, "YOYO", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "collect_csaf", ["250926091", "250926091", 1, "YOYO", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -3246,6 +3265,7 @@ WebSocket; JSON-RPC
 :pledge_asset_symbol: 抵押币种（YOYO）
 :url: 平台链接
 :extra_data:  平台额外数据
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -3258,12 +3278,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "create_platform", ["223331844", "yoyo.club", "10000", "YOYO", "", "", true]]}
+    {"id":1, "method":"call", "params":[0, "create_platform", ["223331844", "yoyo.club", "10000", "YOYO", "", "", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "create_platform", ["223331844", "yoyow.club", "10000", "YOYO", "", "", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "create_platform", ["223331844", "yoyow.club", "10000", "YOYO", "", "", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -3337,6 +3357,7 @@ WebSocket; JSON-RPC
 :pledge_asset_symbol:   新的抵押币种（YOYO），不需修改则输入 null
 :url: 新的介绍链接，不需修改则输入 null
 :extra_data:  新的平台额外数据
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注：
@@ -3354,12 +3375,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "update_platform", ["223331844", "NUUUU", null, null, "http://www.example.com", "http://www.example.com", true]]}
+    {"id":1, "method":"call", "params":[0, "update_platform", ["223331844", "NUUUU", null, null, "http://www.example.com", "http://www.example.com", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_platform", ["223331844", "NUUUU", null, null, "http://www.example.com", "http://www.example.com", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_platform", ["223331844", "NUUUU", null, null, "http://www.example.com", "http://www.example.com", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -3432,6 +3453,7 @@ WebSocket; JSON-RPC
 :voting_account:  投票人账号（UID或昵称）
 :platforms_to_add:  增加支持的平台清单（UID或昵称）
 :platforms_to_remove:   移除支持的平台清单（UID或昵称）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 latforms_to_add，platforms_to_remove 两个清单可以都为空，表示刷新投票意向。
@@ -3446,12 +3468,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "update_platform_votes", ["250926091", ["223331844"], [], true]]}
+    {"id":1, "method":"call", "params":[0, "update_platform_votes", ["250926091", ["223331844"], [], true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_platform_votes", ["250926091", ["223331844"], [], true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_platform_votes", ["250926091", ["223331844"], [], true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -3525,6 +3547,7 @@ WebSocket; JSON-RPC
 
 :account:  授权账号（UID或昵称）
 :platform_owner:  平台所有者账号（UID或昵称）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -3537,12 +3560,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "account_auth_platform", ["250926091", "223331844", true]]}
+    {"id":1, "method":"call", "params":[0, "account_auth_platform", ["250926091", "223331844", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "account_auth_platform", ["250926091", "223331844", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "account_auth_platform", ["250926091", "223331844", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -3612,6 +3635,7 @@ WebSocket; JSON-RPC
 """"""""""""""""
 :account:  授权账号（UID或昵称）
 :platform_owner:  平台所有者账号（UID或昵称）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 
@@ -3625,12 +3649,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "account_cancel_auth_platform", ["250926091", "223331844", true]]}
+    {"id":1, "method":"call", "params":[0, "account_cancel_auth_platform", ["250926091", "223331844", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "account_cancel_auth_platform", ["250926091", "223331844", true], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "account_cancel_auth_platform", ["250926091", "223331844", true, true], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -3702,6 +3726,7 @@ WebSocket; JSON-RPC
 :precision:   精度（保留几位小数）
 :common: 选项，详见下文选项参数结构
 :initial_supply:  初始流通量为整型表示，即：实际金额 = initial_supply / ( 10 ^ precision )
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 其中选项参数结构
@@ -3758,12 +3783,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "create_asset", ["250926091","TOTOTO", 4, {"max_supply":300000,"market_fee_percent":0,"max_market_fee":0,"issuer_permissions":4}, 200000, true]]}
+    {"id":1, "method":"call", "params":[0, "create_asset", ["250926091","TOTOTO", 4, {"max_supply":300000,"market_fee_percent":0,"max_market_fee":0,"issuer_permissions":4}, 200000, true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "create_asset", ["250926091","TOTOTO", 4, {"max_supply":300000,"market_fee_percent":0,"max_market_fee":0,"issuer_permissions":4}, 200000, true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "create_asset", ["250926091","TOTOTO", 4, {"max_supply":300000,"market_fee_percent":0,"max_market_fee":0,"issuer_permissions":4}, 200000, true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -3841,6 +3866,7 @@ WebSocket; JSON-RPC
 :symbol:  资产符号
 :new_issuer:  新的资产所有人，不需修改则置为null
 :new_options:   新的资产选项（见create_asset 中的 common参数结构），不需修改则输入 null
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -3857,11 +3883,11 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "update_asset", ["WOWO", null, {"max_supply":"2000000000"}, true]]}
+    {"id":1, "method":"call", "params":[0, "update_asset", ["WOWO", null, {"max_supply":"2000000000"}, true, true]]}
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_asset", ["WOWO", null, {"max_supply":"2000000000"}, true]]}, "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_asset", ["WOWO", null, {"max_supply":"2000000000"}, true, true]]}, "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -3945,6 +3971,7 @@ WebSocket; JSON-RPC
 
 :account:  账号（UID或昵称）
 :enable:  是否启用（ true 为启用， false 为停用 ）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -3957,12 +3984,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "enable_allowed_assets", ["250926091", false, true]]}
+    {"id":1, "method":"call", "params":[0, "enable_allowed_assets", ["250926091", false, true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "issue_asset", "250926091", false, true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "issue_asset", "250926091", false, true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -4034,6 +4061,7 @@ WebSocket; JSON-RPC
 :account:  账号（UID或昵称）
 :assets_to_add:  添加到白名单的资产清单（资产代码或 id ）
 :assets_to_remove:   从白名单移除的资产清单（资产代码或 id ）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -4046,12 +4074,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "issue_asset", ["250926091", "100000", "WOWO", "memo", true]]}
+    {"id":1, "method":"call", "params":[0, "issue_asset", ["250926091", "100000", "WOWO", "memo", ture, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "issue_asset", ["250926091", "100000", "WOWO", "memo", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "issue_asset", ["250926091", "100000", "WOWO", "memo", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -4120,6 +4148,7 @@ WebSocket; JSON-RPC
 :amount:  数量
 :symbol:   资产符号
 :memo:  备注
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -4132,12 +4161,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "issue_asset", ["250926091", "100000", "WOWO", "memo", true]]}
+    {"id":1, "method":"call", "params":[0, "issue_asset", ["250926091", "100000", "WOWO", "memo", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "issue_asset", ["250926091", "100000", "WOWO", "memo", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "issue_asset", ["250926091", "100000", "WOWO", "memo", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -4206,6 +4235,7 @@ WebSocket; JSON-RPC
 :from:  账号（UID或昵称）
 :amount:  金额
 :symbol:   币种（资产代码）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -4218,12 +4248,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "reserve_asset", ["250926091", "1000", "WOWO", true]]}
+    {"id":1, "method":"call", "params":[0, "reserve_asset", ["250926091", "1000", "WOWO", true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "reserve_asset", ["250926091", "1000", "WOWO", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "reserve_asset", ["250926091", "1000", "WOWO", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -4297,6 +4327,7 @@ WebSocket; JSON-RPC
 :amount:  金额
 :symbol:   币种（资产代码）
 :memo:  备注（不带备注的话用空串""）
+:csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
 注意事项
@@ -4309,13 +4340,13 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "override_transfer", ["216494599", "250926091", 2, "SOSO", "memo", true]]}
+    {"id":1, "method":"call", "params":[0, "override_transfer", ["216494599", "250926091", 2, "SOSO", "memo", true, true]]}
 
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "override_transfer", ["216494599", "250926091", 2, "SOSO", "memo", true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "override_transfer", ["216494599", "250926091", 2, "SOSO", "memo", true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果

@@ -24,35 +24,35 @@ list_platforms 0 5 1
 
 ## 创建平台
 ```
-# create_platform <owner_account> <name> <pledge_amount> <pledge_asset_symbol> <url> <extra_data> <broadcast>
-create_platform 223331844 yoyow.club 10000 YOYO "http://yoyow.club" null true
+# create_platform <owner_account> <name> <pledge_amount> <pledge_asset_symbol> <url> <extra_data> <csaf_fee> <broadcast>
+create_platform 223331844 yoyow.club 10000 YOYO "http://yoyow.club" null true true
 ```
 详见：[create_platform](../api/wallet_api.html#create-platform)
 
 ## 更新平台信息
 ```
-# update_platform <platform_account> <name> <pledge_amount> <pledge_asset_symbol> <url> <extra_data> <broadcast>
-update_platform 223331844 NUUUU null null "http://www.example.com" "http://www.example.com" true
+# update_platform <platform_account> <name> <pledge_amount> <pledge_asset_symbol> <url> <extra_data> <csaf_fee> <broadcast>
+update_platform 223331844 NUUUU null null "http://www.example.com" "http://www.example.com" true true
 ```
 详见：[update_platform](../api/wallet_api.html#update-platform)
 
 ## 为平台投票
 ```
-# update_platform_votes <voting_account> <platforms_to_add> <platforms_to_remove> <broadcast>
-update_platform_votes 250926091 ["223331844"] [] true
+# update_platform_votes <voting_account> <platforms_to_add> <platforms_to_remove> <csaf_fee> <broadcast>
+update_platform_votes 250926091 ["223331844"] [] true true
 ```
 详见：[update_platform_votes](../api/wallet_api.html#update-platform-votes)
 
 ## 对平台授权
 ```
-# account_auth_platform <account> <platform_owner> <broadcast>
-account_auth_platform 250926091 223331844 true
+# account_auth_platform <account> <platform_owner> <csaf_fee> <broadcast> 
+account_auth_platform 250926091 223331844 true true
 ```
 详见：[account_auth_platform](../api/wallet_api.html#account-auth-platform)
 
 ## 取消平台授权
 ```
-# account_cancel_auth_platform <account> <platform_owner> <broadcast>
-account_cancel_auth_platform 250926091 223331844 true
+# account_cancel_auth_platform <account> <platform_owner> <csaf_fee> <broadcast>
+account_cancel_auth_platform 250926091 223331844 true true
 ```
 详见：[account_cancel_auth_platform](../api/wallet_api.html#account-cancel-auth-platform)

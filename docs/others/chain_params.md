@@ -2,4 +2,4 @@
 
 请参照YOYOW浏览器：
 - [手续费说明](https://yoyow.bts.ai/fees)
-- [参数表说明](https://yoyow.bts.ai/fees#parameters)
+- [参数表说明](https://yoyow.bts.ai/parameters)

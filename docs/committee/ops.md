@@ -4,8 +4,8 @@
 
 ## 创建理事会账户
 ```
-# create_committee_member <owner_account> <pledge_amount> <pledge_asset_symbol> <url> <broadcast>
-create_committee_member 223331844 1000 YOYO "http://www.yoyow.org" true
+# create_committee_member <owner_account> <pledge_amount> <pledge_asset_symbol> <url> <csaf_fee> <broadcast>
+create_committee_member 223331844 1000 YOYO "http://www.yoyow.org" true true
 ```
 详见：[create_committee_member](../api/wallet_api.html#create-committee-member)
 
@@ -13,16 +13,16 @@ create_committee_member 223331844 1000 YOYO "http://www.yoyow.org" true
 ## 更新理事会账户
 
 ```
-# update_committee_member <committee_member_account> <pledge_amount> <pledge_asset_symbol> <url> <broadcast>
-update_committee_member 223331844 1000 YOYO "http://demo.yoyow.org" true
+# update_committee_member <committee_member_account> <pledge_amount> <pledge_asset_symbol> <url> <csaf_fee> <broadcast>
+update_committee_member 223331844 1000 YOYO "http://demo.yoyow.org" true true
 ```
 详见：[update_committee_member](../api/wallet_api.html#update-committee-member)
 
 ## 投票给理事会
 
 ```
-# update_committee_member_votes <voting_account> <committee_members_to_add> <committee_members_to_remove> <broadcast>
-update_committee_member_votes 223331844 ["init1"], [],  true
+# update_committee_member_votes <voting_account> <committee_members_to_add> <committee_members_to_remove> <csaf_fee> <broadcast>
+update_committee_member_votes 223331844 ["init1"], [],  true true
 ```
 详见：[update_committee_member_votes](../api/wallet_api.html#update-committee-member-votes)
 
