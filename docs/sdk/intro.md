@@ -15,7 +15,7 @@ YOYOW中间件是通过YOYOW node 的API接口与YOYOW网络通讯，为平台�
 ```javascript
 {
     // api服务器地址，测试网公共api地址如下，正式网部署请更改该地址
-    apiServer: "ws://47.52.155.181:10011",
+    apiServer: "wss://api.testnet.yoyow.org",
     
     // 安全请求有效时间，单位s，如果请求的内容超过有效期，会返回 1003 请求已过期
     secure_ageing: 60,

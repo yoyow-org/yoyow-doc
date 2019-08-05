@@ -8,8 +8,8 @@
 
 测试环境：
 :: 
-  websocket 接口地址： ws://47.52.155.181:10011
-  jsonrpc 接口地址： http://47.52.155.181:10011/rpc
+  websocket 接口地址： wss://api.testnet.yoyow.org
+  jsonrpc 接口地址： https://api.testnet.yoyow.org/rpc
 
 正式环境：
 ::
@@ -18,11 +18,11 @@
 
 
 使用wscat连接， `wscat安装方法 <https://www.npmjs.com/package/wscat>`_  
-  wscat -c ws://47.52.155.181:10011
+  wscat -c wss://api.testnet.yoyow.org
 
 
 使用curl post data 连接
-  curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_accounts_by_uid", [["250926091"]]], "id": 1}' http://47.52.155.181:10011/rpc
+  curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_accounts_by_uid", [["250926091"]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 API分类
 ----------------
@@ -93,13 +93,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0,"get_required_signatures",[{"operations":[[0,{"fee":{"total":{"amount":100000,"asset_id":0}},"from":250926091,"to":223331844,"amount":{"amount":100000,"asset_id":0},"extensions":{}}]]}, ["YYW5eDSFYeiqyFRajfPP8tTZM7mfUeyc7H65zmnHtDW4SQJdwqTBD"]]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_accounts_by_uid", [{"operations":[[0,{"fee":{"total":{"amount":100000,"asset_id":0}},"from":250926091,"to":223331844,"amount":{"amount":100000,"asset_id":0},"extensions":{}}]]}, ["YYW5eDSFYeiqyFRajfPP8tTZM7mfUeyc7H65zmnHtDW4SQJdwqTBD"]]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_accounts_by_uid", [{"operations":[[0,{"fee":{"total":{"amount":100000,"asset_id":0}},"from":250926091,"to":223331844,"amount":{"amount":100000,"asset_id":0},"extensions":{}}]]}, ["YYW5eDSFYeiqyFRajfPP8tTZM7mfUeyc7H65zmnHtDW4SQJdwqTBD"]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 返回结果
 """"""""""""""""
@@ -156,13 +156,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0,"get_accounts_by_uid",[["250926091"]]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_accounts_by_uid", [["250926091"]]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_accounts_by_uid", [["250926091"]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -279,13 +279,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0,"get_account_balances",["250926091", [0,1]]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_account_balances", ["250926091", [0,1]]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_account_balances", ["250926091", [0,1]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -345,13 +345,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0,"get_post",["223331844",223331844,0,1]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_post", [["250926091"]]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_post", [["250926091"]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -413,13 +413,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0,"get_posts_by_platform_poster",[223331844, null, ["2018-04-03T12:42:36","2018-05-03T12:42:36"], 100]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_accounts_by_uid", [223331844, null, ["2018-04-03T12:42:36","2018-05-03T12:42:36"], 100]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_accounts_by_uid", [223331844, null, ["2018-04-03T12:42:36","2018-05-03T12:42:36"], 100]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -493,13 +493,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "get_required_fee_data", [[[0,{"fee":{"total":{"amount":200000,"asset_id":0},"options":{"from_balance":{"amount":200000,"asset_id":0}}},"from":236542328,"to":228984329,"amount":{"amount":100000,"asset_id":0},"extensions":{"from_balance":{"amount":100000,"asset_id":0},"to_balance":{"amount":100000,"asset_id":0}}}]]]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_required_fee_data", [[[0,{"fee":{"total":{"amount":200000,"asset_id":0},"options":{"from_balance":{"amount":200000,"asset_id":0}}},"from":236542328,"to":228984329,"amount":{"amount":100000,"asset_id":0},"extensions":{"from_balance":{"amount":100000,"asset_id":0},"to_balance":{"amount":100000,"asset_id":0}}}]]]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_required_fee_data", [[[0,{"fee":{"total":{"amount":200000,"asset_id":0},"options":{"from_balance":{"amount":200000,"asset_id":0}}},"from":236542328,"to":228984329,"amount":{"amount":100000,"asset_id":0},"extensions":{"from_balance":{"amount":100000,"asset_id":0},"to_balance":{"amount":100000,"asset_id":0}}}]]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 返回结果
 """"""""""""""""
@@ -574,7 +574,7 @@ Options 数组可以有如下参数
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "get_full_accounts_by_uid", [["250926091"],{}]]}
 
     {"id":1, "method":"call", "params":[0, "get_full_accounts_by_uid", [["223331844"],{"fetch_assets": true}]]}
@@ -582,7 +582,7 @@ WebSocket:
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_full_accounts_by_uid", [["250926091"],{}]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_full_accounts_by_uid", [["250926091"],{}]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -762,13 +762,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0,"get_witness_by_account",["132826789"]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_witness_by_account", ["132826789"], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_witness_by_account", ["132826789"], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -848,13 +848,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "get_witnesses", [[132826789,25997]]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_witnesses", [[132826789,25997]]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_witnesses", [[132826789,25997]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -956,13 +956,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "lookup_witnesses", [0,2,1]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "lookup_witnesses", [0,2,1]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "lookup_witnesses", [0,2,1]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -1061,13 +1061,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "get_committee_member_by_account", [25997]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_committee_member_by_account", [25997], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_committee_member_by_account", [25997], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -1127,13 +1127,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "get_committee_members", [[25997,26264]]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_committee_members", [[25997,26264]]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_committee_members", [[25997,26264]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -1205,7 +1205,7 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "lookup_committee_members", [0,2,1]]}
 
 JSON-RPC:
@@ -1280,13 +1280,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "list_committee_proposals", []]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "list_committee_proposals", []], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "list_committee_proposals", []], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -1337,13 +1337,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "lookup_accounts_by_name", ["",2]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "lookup_accounts_by_name", ["",2]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "lookup_accounts_by_name", ["",2]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 返回结果
 """"""""""""""""
@@ -1394,13 +1394,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "get_platform_by_account", [224006453]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_platform_by_account", [224006453]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_platform_by_account", [224006453]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -1464,13 +1464,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "get_platforms", [[224006453,217895094]]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_platforms", [[224006453,217895094]]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_platforms", [[224006453,217895094]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -1556,13 +1556,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "lookup_platforms", [0,2,1]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "lookup_platforms", [0,2,1]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "lookup_platforms", [0,2,1]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -1645,13 +1645,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "get_platform_count", []]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_platform_count", []], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_platform_count", []], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -1706,13 +1706,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "get_assets", [[0]]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_assets", [[0]]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "get_assets", [[0]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -1790,13 +1790,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "list_assets", ["YOY",4]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "list_assets", ["YOY",4]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "list_assets", ["YOY",4]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -1950,14 +1950,14 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":[0, "lookup_asset_symbols", [[0]]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "lookup_asset_symbols", [[0]]], "id": 1}' http://47.52.155.181:10011/rpc
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "lookup_asset_symbols", [["YOYO"]]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "lookup_asset_symbols", [[0]]], "id": 1}' https://api.testnet.yoyow.org/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": [0, "lookup_asset_symbols", [["YOYO"]]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果
@@ -2042,13 +2042,13 @@ WebSocket; JSON-RPC
 WebSocket:
 ::
 
-    wscat -c ws://47.52.155.181:10011
+    wscat -c wss://api.testnet.yoyow.org
     {"id":1, "method":"call", "params":["history", "get_relative_account_history", [223331844, null, 1,3,10]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params": ["history", "get_relative_account_history", [223331844, null, 1,3,10]], "id": 1}' http://47.52.155.181:10011/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params": ["history", "get_relative_account_history", [223331844, null, 1,3,10]], "id": 1}' https://api.testnet.yoyow.org/rpc
 
 
 返回结果

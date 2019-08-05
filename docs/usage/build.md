@@ -54,7 +54,7 @@ yoyow_client 一般被叫称为客户端程序，对节点程序提供的API进�
 ### 客户端程序（钱包）
 客户端程序在运行时需要连接到节点程序的websocket接口，默认会尝试连接127.0.0.1:8090，也可以使用`-s`参数指定其他地址。
 ```
-./programs/yoyow_client/yoyow_client -s ws://47.52.155.181:10011
+./programs/yoyow_client/yoyow_client -s wss://api.testnet.yoyow.org
 ```
 客户端程序提供了一个可以交互的命令行，可以通过命令行键入相关命令执行一些操作。
 

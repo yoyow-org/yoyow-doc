@@ -28,9 +28,9 @@
 以测试网为例，从[测试网CLI下载](https://github.com/yoyow-org/yoyow-core-testnet/releases/)下载相应环境下的yoyow-client。
 #### 2.1.1 带参数启动
 
-以Ubuntu为例，连接测试网的node节点（ws://47.52.155.181:10011）
+以Ubuntu为例，连接测试网的node节点（wss://api.testnet.yoyow.org）
 
-    ./yoyow_client -s ws://47.52.155.181:10011 
+    ./yoyow_client -s wss://api.testnet.yoyow.org 
 
 如若提示权限不足 
 
@@ -50,7 +50,7 @@ cli 钱包 同路径下创建wallet.json 文件
       "pending_witness_registrations": [],
       "labeled_keys": [],
       "blind_receipts": [],
-      "ws_server": "ws://47.52.155.181:10011",
+      "ws_server": "wss://api.testnet.yoyow.org",
       "ws_user": "",
       "ws_password": ""
     }

@@ -21,15 +21,15 @@
 ## 测试网公共node节点
 如果不想自己搭建测试网node全节点，可以直接使用公共的node全节点：
 ```
-websocket 接口地址： ws://47.52.155.181:10011
-jsonrpc 接口地址： http://47.52.155.181:10011/rpc
+websocket 接口地址： wss://api.testnet.yoyow.org
+jsonrpc 接口地址： https://api.testnet.yoyow.org/rpc
 ```
 
 ## 运行测试网钱包
 
 如果使用公共的node节点，yoyow_client 需要添加`-s`参数来指定链接的node地址：
 ```
-./yoyow_client -s ws://47.52.155.181:10011 -r 0.0.0.0:8091 -H 127.0.0.1:8093
+./yoyow_client -s wss://api.testnet.yoyow.org -r 0.0.0.0:8091 -H 127.0.0.1:8093
 ```
 
 ## 其他
