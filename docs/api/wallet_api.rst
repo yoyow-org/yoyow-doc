@@ -2538,6 +2538,8 @@ WebSocket; JSON-RPC
 :pledge_amount:  抵押金额
 :pledge_asset_symbol:   抵押币种（YOYO）
 :url: 介绍链接
+:can_pledge: 是否允许抵押， true / false 不需修改则输入 null
+:bonus_rate: 抵押挖矿分红比例，出块工资中的该比例部分分给抵押账户 不需修改则输入 null
 :csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
@@ -2553,12 +2555,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "create_witness", ["223331844", "YYW1111111111111111111111111111111114T1Anm","1000000", "YOYO", "http://www.yoyow.org", true, true]]}
+    {"id":1, "method":"call", "params":[0, "create_witness", ["223331844", "YYW1111111111111111111111111111111114T1Anm","1000000", "YOYO", "http://www.yoyow.org", false, 0, true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "create_witness", ["223331844", "YYW1111111111111111111111111111111114T1Anm","100", "YOYO", "http://www.yoyow.org", true, true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "create_witness", ["223331844", "YYW1111111111111111111111111111111114T1Anm","100", "YOYO", "http://www.yoyow.org", false, 0, true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
@@ -2624,6 +2626,8 @@ WebSocket; JSON-RPC
 :pledge_amount:  新的抵押金额，不需修改则输入 null
 :pledge_asset_symbol:   新的抵押币种（YOYO），不需修改则输入 null
 :url: 新的介绍链接，不需修改则输入 null
+:can_pledge: 是否允许抵押， true / false 不需修改则输入 null
+:bonus_rate: 抵押挖矿分红比例，出块工资中的该比例部分分给抵押账户 不需修改则输入 null
 :csaf_fee:  是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费
 :broadcast:  是否广播
 
@@ -2640,12 +2644,12 @@ WebSocket:
 ::
 
     wscat -c ws://localhost:8091
-    {"id":1, "method":"call", "params":[0, "update_witness", ["223331844", null,"100345", "YOYO", null, true, true]]}
+    {"id":1, "method":"call", "params":[0, "update_witness", ["223331844", null,"100345", "YOYO", null, null, null, true, true]]}
 
 JSON-RPC:
 ::
 
-    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_witness", ["223331844", null,"100345", "YOYO", null, true, true]], "id": 1}' http://localhost:8091/rpc
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0, "update_witness", ["223331844", null,"100345", "YOYO", null, null, null, true, true]], "id": 1}' http://localhost:8091/rpc
 
 
 返回结果
