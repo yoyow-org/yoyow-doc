@@ -4508,3 +4508,614 @@ JSON-RPC:
       "20008db33ea71863fc7f4b97763a34e96e8b9d87714b1445d33c34a6b7bb3015c14d0a130c1ee74946c19b5e992c02249872e1bf601ca24380ebef22e5119a2894"
     ]
   }
+2.5 广告类 API
+----------------
+
+2.5.1 creat_advertising
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+平台账户创建一个新的广告位。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+
+:platform_account:    账号 uid 或者昵称；
+:ad_desc:  广告描述;
+:unit_price:    单位时间的价格；
+:unit_time:   单位时间；
+:csaf_fee:    是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费.
+:broadcast:  是否广播
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"create_advertising",["309037055","test_content",10,100,true,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"create_advertising",["309037055","test_content",10,100,true,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "ref_block_num": 19218,
+        "ref_block_prefix": 1481040854,
+        "expiration": "2020-08-20T03:07:57",
+        "operations": [[
+            42,{
+              "fee": {
+                "total": {
+                  "amount": 11269,
+                  "asset_id": 0
+                },
+                "options": {
+                  "from_csaf": {
+                    "amount": 11269,
+                    "asset_id": 0
+                  }
+                }
+              },
+              "advertising_aid": 4,
+              "platform": 309037055,
+              "unit_time": 100,
+              "unit_price": 1000000,
+              "description": "test_content"
+            }
+          ]
+        ],
+        "signatures": [
+          "200ae5264dc2a7f5ee834eb03b5d96110caa3cd010f8463bb8035553734bbceadc794a4f2c8be36bf27c3324e967e7af95bb2f85b5312db98e276209866a09b57d"
+        ]
+      }
+    }
+
+
+
+2.5.2 update_advertising
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+平台账户编辑广告位信息，上架、下架广告位。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+
+:platform_account:    账号 uid 或者昵称；
+:advertising_aid:  广告的ID;
+:ad_desc:    广告的描述；
+:unit_price:   单位时间的价格；
+:unit_time:   单位时间；
+:on_sale:   是否在售；
+:csaf_fee:    是否使用积分抵扣手续费，true: 积分抵扣手续费，false: 零钱支付手续费；
+:broadcast:  是否广播。
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"update_advertising",["309037055","1","ad_update",100,100,"",true,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"update_advertising",["309037055","1","ad_update",100,100,"",true,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "ref_block_num": 20149,
+        "ref_block_prefix": 1435609923,
+        "expiration": "2020-08-20T03:54:30",
+        "operations": [[
+            43,{
+              "fee": {
+                "total": {
+                  "amount": 10976,
+                  "asset_id": 0
+                },
+                "options": {
+                  "from_csaf": {
+                    "amount": 10976,
+                    "asset_id": 0
+                  }
+                }
+              },
+              "platform": 309037055,
+              "advertising_aid": 1,
+              "description": "ad_update",
+              "unit_price": 10000000,
+              "unit_time": 100
+            }
+          ]
+        ],
+        "signatures": [
+          "205d6deef94b961d74051e872b470b42200013eec055c913dd3949a0a803c8e07247a795fe685c9a54a83e9c834d51907e09026c6bf9971ae6f0b3437aac2a172e"
+        ]
+      }
+    }
+
+
+
+2.5.3 list_advertisings
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+列出平台账户所有的广告位。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+
+:platform_account:    平台账号的id；
+:advertising_aid:  起始广告的ID;
+:limit:    要展示的数量上限；
+
+
+注意事项
+""""""""""""""""
+无
+
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"list_advertisings",["309037055",0,10]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"list_advertisings",["309037055",0,10]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": [{
+          "id": "2.18.0",
+          "advertising_aid": 1,
+          "platform": 309037055,
+          "on_sell": true,
+          "unit_time": 100,
+          "unit_price": 10000000,
+          "description": "ad_update",
+          "last_order_sequence": 0,
+          "publish_time": "2020-08-20T02:49:27",
+          "last_update_time": "2020-08-20T03:52:48"
+        },{
+          "id": "2.18.1",
+          "advertising_aid": 2,
+          "platform": 309037055,
+          "on_sell": true,
+          "unit_time": 100,
+          "unit_price": 1000000,
+          "description": "test_content1",
+          "last_order_sequence": 0,
+          "publish_time": "2020-08-20T02:52:18",
+          "last_update_time": "2020-08-20T02:52:18"
+        }
+      ]
+    }
+
+
+
+2.5.4 list_advertising_orders_by_purchaser
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+列出特定账户发起的购买广告位的列表。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+
+:purchaser:    广告购买者账号的id；
+:advertising_order_id:  起始广告订单的ID;
+:limit:    要展示的数量上限；
+
+
+注意事项
+""""""""""""""""
+无
+
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"list_advertising_orders_by_purchaser",["309037055",0,10]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"list_advertising_orders_by_purchaser",["309037055",0,10]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": 
+    }
+
+
+
+2.5.5 list_advertising_orders_by_ads_aid
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+列出特定广告位收到的购买订单列表。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+
+:platform:    广告所在平台账号的id；
+:ads_id:  广告位的ID;
+:ads_id:  起始广告订单的ID;
+:limit:    要展示的数量上限；
+
+
+注意事项
+""""""""""""""""
+无
+
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"list_advertising_orders_by_ads_aid",["309037055",0,0,10]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"list_advertising_orders_by_ads_aid",["309037055",0,0,10]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": 
+    }
+
+
+
+2.5.6 buy_advertising
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+购买广告位。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+
+:acount:    账户id；
+:platform:  平台账户的id;
+:ads_id:  广告的id;
+:start_time:    广告开始时间；
+:buy_number:    购买数目；
+:extra_data:    额外信息；
+:memo_data:   memo信息；
+:csaf_fee:    是否用积分付手续费：true，用积分付；否，用余额支付；
+:broadcast:   是否广播。
+
+注意事项
+""""""""""""""""
+无
+
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"buy_advertising",["309037055","309037055",1,155197400,30,extramessage,null,true,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"buy_advertising",["309037055","309037055",1,155197400,30,extramessage,null,true,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": 
+    }
+
+
+
+2.5.7 confirm_advertising
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+平台确认是否同意购买订单，或者拒绝购买订单。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+
+:platform:  平台账户的id;
+:ads_id:  广告的id;
+:ads_order_oid:    广告订单id；
+:confirm:    是否确认；
+:csaf_fee:    是否用积分付手续费：true，用积分付；否，用余额支付；
+:broadcast:   是否广播。
+
+注意事项
+""""""""""""""""
+无
+
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"confirm_advertising",["309037055",1,1,true,true,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"confirm_advertising",["309037055",1,1,true,true,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": 
+    }
+
+
+
+2.5.8 ransom_advertising
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+在广告订单提交七天内未得到回复后，用户可以赎回所在订单里面的金额。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+
+:platform:  平台账户的id;
+:account:   发起订单用户的id
+:ads_id:  广告的id;
+:ads_order_oid:    广告订单id；
+:csaf_fee:    是否用积分付手续费：true，用积分付；否，用余额支付；
+:broadcast:   是否广播。
+
+注意事项
+""""""""""""""""
+无
+
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"ransom_advertising",["309037055","309037055",1,1,true,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"ransom_advertising",["309037055","309037055",1,1,true,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": 
+    }
+
+
+ 
