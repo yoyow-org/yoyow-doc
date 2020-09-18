@@ -5118,4 +5118,1282 @@ JSON-RPC:
     }
 
 
- 
+
+2.6 平台管理类 API
+----------------
+
+2.6.1 create_liscense
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+平台账户创建一个新的许可。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:license_type:   许可类型
+:hash_value:   许可的Hash值
+:title:    许可的标题
+:body:    许可的内容
+:extra_data:    额外内容
+:csaf_fee:    是否使用积分支付手续费。true，积分付手续费；false，余额付手续费。
+:broadcast:   是否广播。
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"create_license",["309037055",1,123456789,"license_one","licensebody","licenseextra",false,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"create_license",["309037055",1,123456789,"license_one","licensebody","licenseextra",false,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "ref_block_num": 48964,
+        "ref_block_prefix": 953879366,
+        "expiration": "2020-08-21T03:55:15",
+        "operations": [[
+            41,{
+              "fee": {
+                "total": {
+                  "amount": 14587,
+                  "asset_id": 0
+                }
+              },
+              "license_lid": 1,
+              "platform": 309037055,
+              "type": 1,
+              "hash_value": "123456789",
+              "extra_data": "licenseextra",
+              "title": "license_one",
+              "body": "licensebody"
+            }
+          ]
+        ],
+        "signatures": [
+          "20502916d94e25403f2faca0c93b5040853d9cea4eeb58b12a6bb954bdc3f2e50d4580b818cdcc1b89c6e91382f62af4335dd268ac9b1a6bdc78f2ac03139039c6"
+        ]
+      }
+    }
+
+
+
+2.7 内容类 API
+----------------
+
+2.7.1 create_post
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+平台账户创建一个新的广告位。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:platform:  平台账户的id;
+:poster:   文章作者账户的id
+:hash_value:  文章的Hash值;
+:title:    文章标题；
+:body:    文章内容；
+:extra_data:    额外内容
+:original_platform:   文章原平台
+:original_poster:   文章原作者
+:original_id:   文章原id
+:post_create_ext:   文章创建的扩展结构,详见下文文章创建扩展结构。
+:broadcast:   是否广播。
+
+其中文章创建扩展结构
+::
+	post_create_ext{  
+    	  uint8_t                                           post_type = post_operation::Post_Type_Post; //文章类型  
+		  optional<std::string>                             forward_price;                              //转发价格  
+		  optional< map<account_uid_type, receiptor_ext> >  receiptors;                                 //受益人列表  
+    	  optional<license_lid_type>                        license_lid;                                //文章许可id  
+    	  uint32_t                                          permission_flags =                          //文章开放的权限  
+          	                                                  post_object::Post_Permission_Forward |  //文章允许转发  
+            	                                              post_object::Post_Permission_Liked |    //文章允许点赞  
+                  	                                          post_object::Post_Permission_Buyout |   //文章允许买断  
+                      	                                      post_object::Post_Permission_Comment |  //文章允许评论  
+                          	                                  post_object::Post_Permission_Reward;    //文章允许打赏  
+    	  optional<string>                                  sign_platform;                                 //扩展：由平台账户代签
+	};
+
+
+注意事项
+""""""""""""""""
+无
+
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"create_post",["309037055","309037055",987456321,"postname","postbody","postextry","","","",{post_type:0,forward_price:null,receiptors:null,license_lid :1,permission_flags:255,sign_platform:null},false,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"create_post",["309037055","309037055",987456321,"postname","postbody","postextry","","","",{post_type:0,forward_price:null,receiptors:null,license_lid :1,permission_flags:255,sign_platform:null},false,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "ref_block_num": 49241,
+        "ref_block_prefix": 4121157896,
+        "expiration": "2020-08-21T04:09:06",
+        "operations": [[
+            18,{
+              "fee": {
+                "total": {
+                  "amount": 10446,
+                  "asset_id": 0
+                }
+              },
+              "post_pid": 1,
+              "platform": 309037055,
+              "poster": 309037055,
+              "hash_value": "987456321",
+              "extra_data": "postextry",
+              "title": "postname",
+              "body": "postbody",
+              "extensions": {
+                "post_type": 0,
+                "license_lid": 1,
+                "permission_flags": 255
+              }
+            }
+          ]
+        ],
+        "signatures": [
+          "207c8cf46c205005b117a6f0df2ed5624985997db50c0654cd964a423af032b74f0a45ab65fd923d1fb3cb837eaa4dbedbe4fde773dd9b33f1a9a0bee53de83c58",
+          "2028adf0a8d80a2767e6d82322a772a2a8bfffcfb9fdc7b2193a675dbed8533d7674ad25f0890daea77b3e0496299e732fc3a65dd9fa964f03dfb02b7a5b7ef2af"
+        ]
+      }
+    }
+
+
+
+2.7.2 update_post
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于更新文章内容，开发权限，许可id，转发价以及受益人出售收益的挂单.
+
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:platform:  文章所在平台的账户id;
+:poster:   文章作者账户的id
+:post_pid:    文章的id
+:hash_value:  文章的Hash值;
+:title:    文章标题；
+:body:    文章内容；
+:extra_data:    额外内容；
+:post_update_ext:	文章更新的扩展结构，详见下文文章更新扩展结构；
+:csaf_fee:    是否使用积分支付手续费。true，积分付手续费；false，余额付手续费。
+:broadcast:   是否广播。
+
+文章更新的扩展结构
+::
+	post_update_ext{  
+	    optional<std::string>       forward_price;     //更新转发价，需要作者签名
+	    optional<std::string>       receiptor;         //更新的目标受益人，收益人相关内容更新，需要该收益人签名 
+	    optional<bool>              to_buyout;         //更新是否出售收益，需要目标收益人签名  
+	    optional<uint16_t>          buyout_ratio;      //更新出售收益比率，需要目标收益人签名  
+	    optional<std::string>       buyout_price;      //更新出售收益价格，需要目标收益人签名  
+	    optional<time_point_sec>    buyout_expiration; //更新出售收益过期时间，需要目标收益人签名  
+	    optional<license_lid_type>  license_lid;       //更新文章许可id ，需要作者签名
+	    optional<uint32_t>          permission_flags;  //更新文章开放权限 ，需要作者签名
+	    optional<string>              content_sign_platform;  //由平台代签内容更新
+	    optional<string>              receiptor_sign_platform;//由平台代签收益人参数更新
+	};  
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"update_post",["309037055","309037055",2,,"","","","",{forward_price : 500, receiptor : 309037055, to_buyout : true, buyout_ratio : 30, buyout_price : 300, buyout_expiration : 1546272000,  license_lid : 1, permission_flags : null, content_sign_platform :null, receiptor_sign_platform :null},true,ture]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"update_post",["309037055","309037055",2,,"","","","",{forward_price : 500, receiptor : 309037055, to_buyout : true, buyout_ratio : 30, buyout_price : 300, buyout_expiration : 1546272000,  license_lid : 1, permission_flags : null, content_sign_platform :null, receiptor_sign_platform :null},true,ture], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+		  "ref_block_num": 52512,
+		  "ref_block_prefix": 2867670362,
+		  "expiration": "2020-08-21T06:52:39",
+		  "operations": [[
+		      19,{
+		        "fee": {
+		          "total": {
+		            "amount": 146875,
+		            "asset_id": 0
+		          },
+		          "options": {
+		            "from_csaf": {
+		              "amount": 146875,
+		              "asset_id": 0
+		            }
+		          }
+		        },
+		        "platform": 309037055,
+		        "poster": 309037055,
+		        "post_pid": 2,
+		        "extensions": {
+		          "forward_price": 50000000,
+		          "receiptor": 309037055,
+		          "to_buyout": true,
+		          "buyout_ratio": 3000,
+		          "buyout_price": 30000000,
+		          "buyout_expiration": "2018-12-31T16:00:00",
+		          "license_lid": 1
+		        }
+		      }
+		    ]
+		  ],
+		  "signatures": [
+		    "1f172368eb582b7fcf80ab201bf6d104071bb66d6be61a3b38d72ef25592c890af6e4e41029e9a1f3d383367bfa650d797739baa90b553a3aac0507117e189f1bf",
+		    "20642a2065e398d90a54c890e9884962f0db70bfe176e8cef15d5381fd5ad61f924b29b013578b7432738c8577b135737cde194e18dd6fb9459a4ee065f2d98c6d"
+		  ]
+		}
+    }  
+
+
+
+2.7.3 get_post
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于对文章项目的查询。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:platform:  文章所在平台的账户id;
+:poster:   文章作者账户的id
+:post_pid:    文章的id
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"get_post",["309037055","309037055",1]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"get_post",["309037055","309037055",1]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+		  "id": "1.7.137",
+		  "platform": 309037055,
+		  "poster": 309037055,
+		  "post_pid": 1,
+		  "post_type": "Post_Type_Post",
+		  "hash_value": "987456321",
+		  "extra_data": "postextry",
+		  "title": "postname",
+		  "body": "postbody",
+		  "create_time": "2020-08-21T04:07:09",
+		  "last_update_time": "2020-08-21T04:07:09",
+		  "receiptors": [[
+		      309037055,{
+		        "cur_ratio": 10000,
+		        "to_buyout": false,
+		        "buyout_ratio": 0,
+		        "buyout_price": 0,
+		        "buyout_expiration": "1969-12-31T23:59:59"
+		      }
+		    ]
+		  ],
+		  "license_lid": 1,
+		  "permission_flags": 255,
+		  "score_settlement": false
+		}
+    }
+
+
+2.7.4 reward_post
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于个人账户对文章的打赏，打赏可以是链上任意资产。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:account:	打赏人的账户id；
+:platform:  文章所在平台的账户id;
+:poster:   文章作者账户的id；
+:post_pid:    文章的id；
+:amount:	打赏的数额；
+:asset_symbol:	打赏的资产名字；
+:sign_platform:	可选项，平台代签点赞文章内容；
+:csaf_fee:    是否使用积分支付手续费。true，积分付手续费；false，余额付手续费。
+:broadcast:   是否广播。
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"reward_post",["309037055","309037055","309037055"，2,1000，"YOYO",NULL,true,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"reward_post",["309037055","309037055","309037055"，2,1000，"YOYO",NULL,true,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+		  "ref_block_num": 55286,
+		  "ref_block_prefix": 3782910134,
+		  "expiration": "2020-08-21T09:11:21",
+		  "operations": [[
+		      38,{
+		        "fee": {
+		          "total": {
+		            "amount": 10000,
+		            "asset_id": 0
+		          }
+		        },
+		        "from_account_uid": 309037055,
+		        "platform": 309037055,
+		        "poster": 309037055,
+		        "post_pid": 2,
+		        "amount": {
+		          "amount": 100000000,
+		          "asset_id": 0
+		        }
+		      }
+		    ]
+		  ],
+		  "signatures": [
+		    "1f599bcdc9a2fd6b19badecd369948c114b295800e60897fdc6f6caf5aea417ff84b37d363636087602852af01b4e550b52c4ca45c53a51ef9b29d4ebe35e62900"
+		  ]
+		}
+    }
+
+
+
+2.7.5 get_license
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于查询平台特定license项目。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:platform:  文章平台的账户id;
+:license_lid:   许可的id；
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"get_license",["309037055","1"]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"get_license",["309037055","1"]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+		  "id": "2.17.6",
+		  "license_lid": 1,
+		  "platform": 309037055,
+		  "license_type": 1,
+		  "hash_value": "123456789",
+		  "extra_data": "licenseextra",
+		  "title": "license_one",
+		  "body": "licensebody",
+		  "create_time": "2020-08-21T03:53:18"
+		}
+    }
+
+
+
+2.7.6 list_licenses
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于查询平台license项目。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:platform:  文章平台的账户id;
+:license_lid:   起始许可的id；
+:limit:		展示的数目
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"list_licenses",["309037055",2.17.6,1]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"list_licenses",["309037055",2.17.6,1]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": [{
+		    "id": "2.17.6",
+		    "license_lid": 1,
+		    "platform": 309037055,
+		    "license_type": 1,
+		    "hash_value": "123456789",
+		    "extra_data": "licenseextra",
+		    "title": "license_one",
+		    "body": "licensebody",
+		    "create_time": "2020-08-21T03:53:18"
+		  }
+		]
+    }
+
+
+
+2.7.7 get_posts_count
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于查询平台特定账户的文章数量。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:platform:  文章平台的账户id;
+:poster:   用户的id；
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"get_posts_count",["309037055","309037055"]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"get_posts_count",["309037055","309037055"]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": 2
+    }
+
+
+
+2.7.8 account_auth_platform
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+账户授予平台的零钱使用限额，以及授予平台的各类操作权限。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:account:  文章平台的账户id;
+:platform_pid:   用户的id；
+:memo:		memo信息；
+:limit_for_platform:	授予平台的零钱限额；
+:permission_flags:	授予平台的权限，详情见下；	
+:csaf_fee:	使用积分付手续费。true，积分付手续费；false，余额付手续费；
+:broadcast:	是否广播。
+
+permission_flags权限详情：
+::
+	account_auth_platform_object::Platform_Permission_Forward |  //转帖权      
+	account_auth_platform_object::Platform_Permission_Liked |    //点赞权      
+	account_auth_platform_object::Platform_Permission_Buyout |   //买断权      
+	account_auth_platform_object::Platform_Permission_Comment |  //评论权      
+	account_auth_platform_object::Platform_Permission_Reward |   //打赏权      
+	account_auth_platform_object::Platform_Permission_Post,      //发贴权     
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"account_auth_platform",["309037055","309037055","MEMO",10000,255,true,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"account_auth_platform",["309037055","309037055","MEMO",10000,255,true,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+		  "ref_block_num": 3179,
+		  "ref_block_prefix": 4066884465,
+		  "expiration": "2020-08-24T02:59:36",
+		  "operations": [[
+		      23,{
+		        "fee": {
+		          "total": {
+		            "amount": 100000,
+		            "asset_id": 0
+		          },
+		          "options": {
+		            "from_csaf": {
+		              "amount": 100000,
+		              "asset_id": 0
+		            }
+		          }
+		        },
+		        "uid": 309037055,
+		        "platform": 309037055,
+		        "extensions": {
+		          "limit_for_platform": 1000000000,
+		          "permission_flags": 255,
+		          "memo": {
+		            "from": "YYW85x3LxSJafzbEMVjtkVy7ZdTTSi7QuY4KseM9PKWTVZK7fJwpa",
+		            "to": "YYW85x3LxSJafzbEMVjtkVy7ZdTTSi7QuY4KseM9PKWTVZK7fJwpa",
+		            "nonce": "17727766371187465601",
+		            "message": "8f6523b9dc991bd7fc842740d68609d6"
+		          }
+		        }
+		      }
+		    ]
+		  ],
+		  "signatures": [
+		    "1f5cdc640e66b1fc9a6c4869935b1fddb47d320e36737fd44f37b126cb7e04e2be4b69c29b9d037fa25865742e8217f6559d2be8b92dfba0dc5e5f28907b94b875"
+		  ]
+		}
+    }
+
+
+
+
+2.7.9 score_a_post
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于账户对文章帖子点赞打分，打分范围为-5~5，需要花费账户积分。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:from_account:	点赞发起人的id；
+:platform:  文章平台的账户id;
+:poster:   用户的id；
+:post_pid:	文章的id
+:score:	打的分数，范围从-5到5
+:csaf:	支付的积分；
+:sign_by_platform:	可选项，由平台代签。默认为null；
+:csaf_fee:	使用积分付手续费。true，积分付手续费；false，余额付手续费；
+:broadcast:	是否广播。
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"score_a_post",["309037055","309037055"，"500545326",1,5,10,null,true,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"score_a_post",["309037055","309037055"，"500545326",1,5,10,null,true,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+		  "ref_block_num": 13248,
+		  "ref_block_prefix": 3577965138,
+		  "expiration": "2020-08-24T11:23:03",
+		  "operations": [[
+		      37,{
+		        "fee": {
+		          "total": {
+		            "amount": 10000,
+		            "asset_id": 0
+		          },
+		          "options": {
+		            "from_csaf": {
+		              "amount": 10000,
+		              "asset_id": 0
+		            }
+		          }
+		        },
+		        "from_account_uid": 309037055,
+		        "platform": 309037055,
+		        "poster": 500545326,
+		        "post_pid": 1,
+		        "score": 5,
+		        "csaf": 1000000
+		      }
+		    ]
+		  ],
+		  "signatures": [
+		    "1f541290c8a297938ba7258f585d5cff065e738607f854106fdfcc18c49922ddb14e847b69f0740fcbe8590a7ed61aa37095c32577902e4c2ddefddd0ef05c45d4",
+		    "20017f65f962612d1207d113290a87abe3c33fadf13bdbd2debfd2ed1a0c35d27a36ffd99958ab07a5bccca8453dcc1a8b5a521bba4de5267f9fbeaf35d6fd4959"
+		  ]
+		}
+    }
+
+
+
+2.7.10 buyout_post
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于买断特定文章受益人的收益比。其中买断的受益人receiptor_account，必须先完成出售文章受益的有效挂单，参见update_post操作。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:from_account:	买断发起人的id；
+:platform:  文章所发布的平台账户;
+:poster:   用户的id；
+:post_pid:	文章id；
+:receiptor_account:	要被买断的文章原有收益人的id
+:sign_platform:	可选项，平台代签，默认填null；
+:csaf_fee:	使用积分付手续费。true，积分付手续费；false，余额付手续费；
+:broadcast:	是否广播。
+
+注意事项
+""""""""""""""""
+无
+
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"buyout_post",["500545326","309037055","309037055",1,"309037055",null,false,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"buyout_post",["500545326","309037055","309037055",1,"309037055",null,false,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+		  "ref_block_num": 36148,
+		  "ref_block_prefix": 2436977284,
+		  "expiration": "2020-08-25T06:28:03",
+		  "operations": [[
+		      40,{
+		        "fee": {
+		          "total": {
+		            "amount": 10000,
+		            "asset_id": 0
+		          }
+		        },
+		        "from_account_uid": 500545326,
+		        "platform": 309037055,
+		        "poster": 309037055,
+		        "post_pid": 1,
+		        "receiptor_account_uid": 309037055
+		      }
+		    ]
+		  ],
+		  "signatures": [
+		    "202f1263f5c3ed62aaeea5ddd59380ec301c88a7350c06df1c1fe67a06779333f32c138ae343cf8260c438caadb04e577a600e9dda818ee7c2c3cf0705859fce32",
+		    "202d144a7d068c98fc45dbe28fd87e296d2b4c32f36e01cef46932b48847ae867d4b01cc3c0418d31d8cb63aad62867e8e16fed0e9c754c5b76d79a8769179de2f"
+		  ]
+		}
+    }
+
+
+
+2.7.11 get_score
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于查询平台特定账户给特定文章的评分。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:platform:  文章平台的账户id;
+:poster:   文章作者的id；
+:post_pid:	文章的id；
+:from_account:	打分账户的id。
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"get_score",["309037055","500545326",1,309037055]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"get_score",["309037055","500545326",1,309037055]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+		  "id": "2.16.153",
+		  "from_account_uid": 309037055,
+		  "platform": 309037055,
+		  "poster": 500545326,
+		  "post_pid": 1,
+		  "score": 5,
+		  "csaf": 1000000,
+		  "period_sequence": 0,
+		  "profits": 0,
+		  "create_time": "2020-08-24T11:21:06"
+		}
+    }
+
+
+
+
+2.7.12 get_posts_by_platform_poster
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于查询平台特定账户所发布的全部文章信息。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:platform:  文章平台的账户id;
+:poster:   文章作者的id；
+:lower_bound_post:	限定要查询的编号最大的文章的id；
+:limit:	要展示的数目。
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"get_posts_by_platform_poster",["309037055","500545326",1.7.155,10]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"get_posts_by_platform_poster",["309037055","500545326",1.7.155,10]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": [{
+		    "id": "1.7.141",
+		    "platform": 309037055,
+		    "poster": 500545326,
+		    "post_pid": 1,
+		    "post_type": "Post_Type_Post",
+		    "hash_value": "987456321",
+		    "extra_data": "postextry",
+		    "title": "postname",
+		    "body": "postbody",
+		    "create_time": "2020-08-24T04:36:21",
+		    "last_update_time": "2020-08-24T04:36:21",
+		    "receiptors": [[
+		        309037055,{
+		          "cur_ratio": 2500,
+		          "to_buyout": false,
+		          "buyout_ratio": 0,
+		          "buyout_price": 0,
+		          "buyout_expiration": "1969-12-31T23:59:59"
+		        }
+		      ],[
+		        500545326,{
+		          "cur_ratio": 7500,
+		          "to_buyout": false,
+		          "buyout_ratio": 0,
+		          "buyout_price": 0,
+		          "buyout_expiration": "1969-12-31T23:59:59"
+		        }
+		      ]
+		    ],
+		    "license_lid": 1,
+		    "permission_flags": 255,
+		    "score_settlement": false
+		  }
+		]
+    }
+
+
+2.7.13 list_scores
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+用于查询平台特定文章的限定数量的评分。
+
+支持格式
+""""""""""""""""""
+
+JSON 
+
+请求方式
+""""""""""""""""""
+
+WebSocket; JSON-RPC
+
+所需密钥权限
+""""""""""""""""""
+wallet需要处于unlocked状态
+
+访问授权限制
+""""""""""""""""""
+
+| 访问级别: 普通接口
+
+
+请求参数
+""""""""""""""""
+:platform:  文章平台的账户id;
+:poster:   文章作者的id；
+:post_pid:	文章的id；
+:lower_bound_score:	起始打分行为的id；
+:limit:		展示数目限制；
+:list_cur_period:	是否仅展示当前收益分配周期的点赞。true：只展示当前周期点赞；false：展示所有点赞。
+
+
+注意事项
+""""""""""""""""
+无
+
+调用样例及调试工具
+"""""""""""""""""""""""""""""""""
+WebSocket:
+::
+
+    wscat -c ws://localhost:8091
+    {{"id":1, "method":"call", "params":[0,"list_scores",["309037055","500545326",1,1.7.0,10,true]]}
+
+JSON-RPC:
+::
+
+    curl --data '{"jsonrpc": "2.0", "method": "call", "params":[0,"list_scores",["309037055","500545326",1,1.7.0,10,true]], "id": 1}' http://localhost:8093
+
+
+返回结果
+""""""""""""""""
+
+::
+
+    {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": [{
+		    "id": "2.16.153",
+		    "from_account_uid": 309037055,
+		    "platform": 309037055,
+		    "poster": 500545326,
+		    "post_pid": 1,
+		    "score": 5,
+		    "csaf": 1000000,
+		    "period_sequence": 0,
+		    "profits": 0,
+		    "create_time": "2020-08-24T11:21:06"
+		  }
+		]
+    }
+
+
+
